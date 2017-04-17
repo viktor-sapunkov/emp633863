@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/help.html", "/css/**", "/img/**", "/js/**").anonymous()
             .and()
-                .authorizeRequests().mvcMatchers(HttpMethod.GET, "/{shortKey:[a-zA-Z0-9]{3,11}}").anonymous()
+                .authorizeRequests().mvcMatchers(HttpMethod.GET, "/{shortKey:[a-zA-Z0-9]{1,11}\\b}").anonymous()
             .and()
                 .authorizeRequests().mvcMatchers(HttpMethod.POST, "/account").anonymous()
             .and()
@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().mvcMatchers(HttpMethod.GET, "/statistic/{AccountId}").authenticated()
             .and()
                 .httpBasic();
-        ;
     }
 
     @Resource

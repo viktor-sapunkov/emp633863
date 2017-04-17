@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 
 @RestController
-@RequestMapping(method = RequestMethod.GET, value = "/{shortKey:[a-zA-Z0-9]{3,11}}")
+@RequestMapping(method = RequestMethod.GET, value = "/{shortKey:[a-zA-Z0-9]{1,11}\\b}")
 public class RedirectHandlingController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedirectHandlingController.class);

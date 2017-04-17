@@ -16,7 +16,9 @@ import static java.util.Optional.ofNullable;
 
 @Component
 public class UrlShortener<UserId extends Number, StatUnitId extends BigInteger> {
-    public static final Set<String> STOP_WORDS = new HashSet<>(Arrays.asList(new String[]{"register", "account", "statistic"}));
+    public static final Set<String> STOP_WORDS = new HashSet<>(Arrays.asList(
+            new String[]{"register", "account", "statistic", "favicon", "help", "css", "img", "js"}));
+
     public static final char[] DIGITS = URLShortenerApplication.ALPHANUMERIC;
     public static final BigInteger NUM_DIGITS = new BigInteger(String.valueOf(DIGITS.length));
     public static final Map<Character, BigInteger> VALUES;

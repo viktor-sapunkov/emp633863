@@ -47,7 +47,7 @@ public class StatisticsController {
 
         if (!userId.equals(ofNullable(crowd.getUserByAccountId(principal.getName())).map(UserAccount::getUserId))) {
             httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return Collections.emptyMap();
+            return null;
         }
 
         Queue<BigInteger> allMatchingShortkeys = urlShortener.getAllShortKeysByUserId(userId.get());
