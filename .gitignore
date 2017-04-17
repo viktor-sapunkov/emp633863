@@ -12,3 +12,7 @@
 hs_err_pid*
 
 .idea
+*.iml
+url-shortener/*.iml
+url-shortener/dependency-reduced-pom.xml
+target/
