@@ -1,11 +1,18 @@
 # Installation
 
-`git clone` the project, then `cd url-shortener` and finally, build it with `mvn clean package`.
+`git clone` the project:
+
+```git clone https://github.com/viktor-sapunkov/emp633863.git```
+
+then `cd emp633863/url-shortener` and finally, build it with `mvn clean package`.
 
 # Launching
 
-Execute it with `java -jar JARFILENAME-VERSION.jar [port number]` (the port number is optional and defaults to `8088`).
-Example command line: `java -server -jar url-shortener-1.0-SNAPSHOT.jar 8088` (please make sure to pick up a free port otherwise you get an `Address in use` error).
+Having completed the above instructions for project cloning and building processes, do a `cd target` (that's from `emp633863/url-shortener` subdirectory) and then start the project's JAR file with `java -server -jar JARFILENAME-VERSION.jar [port number]` (the port number is optional and defaults to `8088`).
+
+An example command line would be: `java -server -jar url-shortener-1.0-SNAPSHOT.jar 8088`
+
+Please make sure to pick up a free port - otherwise you get an `Address in use` error.
 
 # Usage
 
