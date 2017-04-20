@@ -16,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.ejb.DependsOn;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -42,12 +41,11 @@ public class UrlsRegistryController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody Output get(
+    public @ResponseBody Output post(
             @Valid @RequestBody Input input,
             BindingResult bindingResult,
             Principal principal,
             final HttpServletResponse httpServletResponse,
-            final HttpServletRequest httpServletRequest,
             final UriComponentsBuilder uriComponentsBuilder) throws BindException {
 
         final int[] httpStatusHolder = {HttpServletResponse.SC_CREATED};
@@ -62,8 +60,9 @@ public class UrlsRegistryController {
                             .orElseThrow(() -> new IllegalStateException(String.format("Unknown user %s", username)));
 
         Number urlShortKey = urlShortener.shorten(
-                userId, input.getUrl(), ofNullable(input.getRedirectType()).orElse(RedirectType.FOUND),
-                () -> httpStatusHolder[0] = HttpServletResponse.SC_ACCEPTED);
+            userId, input.getUrl(), ofNullable(input.getRedirectType()).orElse(RedirectType.FOUND),
+            () -> httpStatusHolder[0] = HttpServletResponse.SC_ACCEPTED
+        );
 
         httpServletResponse.setStatus(httpStatusHolder[0]);
         String url = uriComponentsBuilder.path(UrlShortener.getShortenedUrl(urlShortKey)).toUriString();

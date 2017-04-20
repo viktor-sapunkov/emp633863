@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
@@ -40,17 +39,21 @@ public class StatisticsController {
             Principal principal,
             HttpServletResponse httpServletResponse) {
 
-        Optional<Number> userId = ofNullable(crowd.getUserByAccountId(accountId)).map(UserAccount::getUserId);
-        if (!userId.isPresent()) {
-            return Collections.emptyMap();
-        }
+        Optional<Number> principalUserId = ofNullable(crowd.getUserByAccountId(principal.getName()))
+                .map(UserAccount::getUserId);
+        boolean notAuthorized = !principalUserId.isPresent();
 
-        if (!userId.equals(ofNullable(crowd.getUserByAccountId(principal.getName())).map(UserAccount::getUserId))) {
+        Optional<Number> requestedUserId = ofNullable(crowd.getUserByAccountId(accountId))
+                .map(UserAccount::getUserId);
+        notAuthorized |= !requestedUserId.isPresent();
+
+        if (notAuthorized || !requestedUserId.get().equals(principalUserId.get())) {
             httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
         }
 
-        Queue<BigInteger> allMatchingShortkeys = urlShortener.getAllShortKeysByUserId(userId.get());
+        Number userId = requestedUserId.get();
+        Queue<BigInteger> allMatchingShortkeys = urlShortener.getAllShortKeysByUserId(userId);
         Map<?, ?> urlToHits = allMatchingShortkeys.stream()
                 .collect(Collectors.toMap(urlShortener::getOriginalUrl, urlShortener::getHits));
 

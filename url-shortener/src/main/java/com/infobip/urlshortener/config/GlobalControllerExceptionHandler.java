@@ -1,6 +1,6 @@
 package com.infobip.urlshortener.config;
 
-import com.infobip.urlshortener.model.ErrorResponse;
+import com.infobip.urlshortener.model.errors.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ public class GlobalControllerExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
     @ResponseBody
     public ErrorResponse catchAll(Exception e) {
-        LOGGER.error("Internal error", e);
-        return new ErrorResponse(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), String.valueOf(e));
+        LOGGER.error("Service unavailable", e);
+        return new ErrorResponse(String.valueOf(HttpStatus.SERVICE_UNAVAILABLE), String.valueOf(e));
     }
 }

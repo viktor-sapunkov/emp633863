@@ -14,6 +14,7 @@ public abstract class IdCryptoGenerator<IdType extends Number> implements IdGene
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public IdType get() {
         return (IdType)new BigInteger(BIT_LEN, random);
     }

@@ -1,6 +1,7 @@
 package com.infobip.urlshortener.model;
 
 import com.infobip.urlshortener.URLShortenerApplication;
+import com.infobip.urlshortener.model.errors.AccountTakenException;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -23,10 +24,6 @@ public final class Crowd<UserId extends Number> {
 
     public UserAccount<UserId> getUserByAccountId(final String accountId) {
         return byAccountId.get(accountId);
-    }
-
-    public boolean hasUserId(final UserId userId) {
-        return users.containsKey(userId);
     }
 
     public boolean hasAccountId(final String accountId) {
@@ -55,16 +52,15 @@ public final class Crowd<UserId extends Number> {
             password = String.valueOf(pwgen);
         }
 
-        UserAccount<UserId> created;
-        for (;;) {
-            UserId userId = (UserId)idGenerator.get();
-            created = new UserAccount<>(userAccount.getAccountId(), password, userId);
-            if (users.putIfAbsent(userId, created) == null) {
-                byAccountId.put(created.getAccountId(), created);
-                break;
-            }
+        @SuppressWarnings("unchecked")
+        UserId userId = (UserId)idGenerator.get();
+
+        UserAccount<UserId> created = new UserAccount<>(userAccount.getAccountId(), password, userId);
+        if (users.putIfAbsent(userId, created) != null) {
+            throw new AccountTakenException();
         }
 
+        byAccountId.put(created.getAccountId(), created);
         return created.getUserId();
     }
 

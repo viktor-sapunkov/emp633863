@@ -1,4 +1,4 @@
-package com.infobip.urlshortener.model;
+package com.infobip.urlshortener.model.errors;
 
 import lombok.Data;
 

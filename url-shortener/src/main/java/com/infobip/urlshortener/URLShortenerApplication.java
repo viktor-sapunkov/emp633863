@@ -1,7 +1,6 @@
 package com.infobip.urlshortener;
 
 import com.infobip.urlshortener.controller.AccountController;
-import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -21,7 +20,6 @@ import java.util.EnumSet;
 
 import static org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME;
 
-//FIXME TODO : consider switching to HTTP 503 as a catch-all, meaning that even though the service isn't available immediately, it is expected to get back shortly.
 /**
  * an HTTP service that serves to shorten URLs, with the following functionalities:
  * - Registration Web address (API)
