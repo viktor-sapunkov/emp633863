@@ -1,6 +1,6 @@
 # Installation
 
-`git clone` the project, then build it with `mvn clean package`.
+`git clone` the project, then `cd url-shortener` and finally, build it with `mvn clean package`.
 
 # Launching
 
